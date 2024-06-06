@@ -96,6 +96,7 @@ document.getElementById('applyMosaic').addEventListener('click', function() {
                 const maskCtx = maskCanvas.getContext('2d');
                 maskCtx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
 
+                // Download Image Button Event
                 document.getElementById('downloadImage').onclick = function() {
                     const a = document.createElement('a');
                     a.href = newImg.src;
