@@ -6,7 +6,10 @@
 </head>
 <body>
     <input type="file" id="imageInput" accept="image/*"><br>
-    <canvas id="imageCanvas"></canvas>
+    <div style="position: relative;">
+        <canvas id="imageCanvas"></canvas>
+        <canvas id="overlayCanvas" style="position: absolute; top: 0; left: 0;"></canvas>
+    </div>
     <canvas id="maskCanvas" style="display:none;"></canvas>
     <button id="applyMosaic">Apply Mosaic</button>
     <button id="downloadImage">Download Image</button>

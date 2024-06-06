@@ -6,7 +6,7 @@ document.getElementById('imageInput').addEventListener('change', function(event)
         img.onload = function() {
             const imageCanvas = document.getElementById('imageCanvas');
             const maskCanvas = document.getElementById('maskCanvas');
-            const overlayCanvas = document.createElement('canvas'); // オーバーレイ用のキャンバス
+            const overlayCanvas = document.getElementById('overlayCanvas');
             const imageCtx = imageCanvas.getContext('2d');
             const maskCtx = maskCanvas.getContext('2d');
             const overlayCtx = overlayCanvas.getContext('2d');
@@ -20,7 +20,7 @@ document.getElementById('imageInput').addEventListener('change', function(event)
 
             imageCtx.drawImage(img, 0, 0);
             maskCtx.fillStyle = 'rgba(255, 255, 255, 1)';
-            overlayCtx.fillStyle = 'rgba(255, 255, 255, 0.5)'; // 半透明の白色
+            overlayCtx.fillStyle = 'rgba(255, 255, 255, 0.5)';
 
             let isDrawing = false;
 
@@ -36,28 +36,31 @@ document.getElementById('imageInput').addEventListener('change', function(event)
                 overlayCtx.globalAlpha = 1.0;
             }
 
-            imageCanvas.onmousedown = function(e) {
+            overlayCanvas.onmousedown = function(e) {
                 isDrawing = true;
-                const rect = imageCanvas.getBoundingClientRect();
+                const rect = overlayCanvas.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
                 drawMask(x, y);
             };
 
-            imageCanvas.onmousemove = function(e) {
+            overlayCanvas.onmousemove = function(e) {
                 if (isDrawing) {
-                    const rect = imageCanvas.getBoundingClientRect();
+                    const rect = overlayCanvas.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
                     drawMask(x, y);
                 }
             };
 
-            imageCanvas.onmouseup = function() {
+            overlayCanvas.onmouseup = function() {
                 isDrawing = false;
             };
 
-            // 画像をオーバーレイキャンバスに描画
+            overlayCanvas.onmouseout = function() {
+                isDrawing = false;
+            };
+
             overlayCtx.drawImage(imageCanvas, 0, 0);
         };
         img.src = e.target.result;
@@ -90,7 +93,6 @@ document.getElementById('applyMosaic').addEventListener('click', function() {
                 newImg.style.width = '100%';
                 document.body.appendChild(newImg);
 
-                // マスクキャンバスをクリアする
                 const maskCtx = maskCanvas.getContext('2d');
                 maskCtx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
 
@@ -106,4 +108,3 @@ document.getElementById('applyMosaic').addEventListener('click', function() {
         });
     });
 });
-
